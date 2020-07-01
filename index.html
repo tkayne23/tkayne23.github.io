@@ -51,7 +51,7 @@ p {
   right: 0;
   color: rgba(192,192,192,1);
   background: rgba(0,0,0,.9);
-  margin-right: 20px;
+  margin-right: 10px;
   font-family: Arial, sans-serif;
   overflow: auto;
   border-radius: 3px;
@@ -61,7 +61,11 @@ p {
   top: 0;
   height: 200px;
   margin-top: 60px;
-  width: 260px;
+  width: 240px;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
 #legend {
@@ -69,7 +73,7 @@ p {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   font-size: .8em;
   line-height: 12px;
-  height: 60px;
+  height: 80px;
   margin-bottom: 40px;
   width: 220px;
 }
@@ -119,8 +123,8 @@ mapboxgl: mapboxgl
 // here is the load callback function; execute after the load is done
 // this is used in the legend
 map.on('load', function() {
-  var layers = ['Appeal is Not Necessary', 'Appeal is Encouraged', 'Appeal is Recommended','Appeal is Strongly Recommended','Appeal is Absolutely Recommended'];
-  var colors = ['#fee5d9', '#fcae91','#fb6a4a','#de2d26','#a50f15'];
+  var layers = ['Appeal is Not Necessary','Appeal is Slightly Encouraged', 'Appeal is Encouraged', 'Appeal is Recommended','Appeal is Strongly Recommended','Appeal is Absolutely Recommended'];
+  var colors = ['#f8f8ff','#fee5d9', '#fcae91','#fb6a4a','#de2d26','#a50f15'];
 
 // this adds the legend
 //  it iterates through the list of layers you defined above and adds a legend element 
@@ -147,7 +151,7 @@ map.on('mousemove', function(e) {
   });
 
   if (states.length > 0) {
-    document.getElementById('pd').innerHTML = '<p><strong>' + states[0].properties.PIN + '</strong></p><p><strong>' + states[0].properties.Address + '</strong></p><p><strong>' + states[0].properties.CERTIFIED + ' CCAO Value</strong></p><p><strong>' + states[0].properties.Pred_xgb + ' Prediction</strong></p><p><strong>' + states[0].properties.Difference + ' Difference</strong></p><p><strong>' + states[0].properties.Prediction_per_sqft + ' Prediction $ sq ft</strong></p>';
+    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.PIN + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Cook Cty Value: $' + states[0].properties.CERTIFIED.toFixed(0) + '</strong></p><p><strong> Prediction: $' + states[0].properties.Pred_xgb.toFixed(0) + '</strong></p><p><strong> Difference: $' + states[0].properties.Difference.toFixed(0) + '</strong></p><p><strong> Prediction per sq ft: $' + states[0].properties.Prediction_per_sqft.toFixed(0) + '</strong></p>';
   } else {
     document.getElementById('pd').innerHTML = '<p>Zoom in until dots are visible, hover over dot for details!</p>';
   }
