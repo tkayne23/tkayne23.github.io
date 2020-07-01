@@ -1,115 +1,167 @@
- <html>
-  <head>
-    <title>deck.gl Loveland Tax</title>
-
-    <script src="https://unpkg.com/deck.gl@^7.0.0/dist.min.js"></script>
-    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js"></script>
-
-    <style type="text/css">
-      body {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-      }
-      #tooltip:empty {
-        display: none;
-      }
-      #tooltip {
-        font-family: Helvetica, Arial, sans-serif;
-        position: absolute;
-        padding: 4px;
-        margin: 8px;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        max-width: 300px;
-        font-size: 10px;
-        z-index: 9;
-        pointer-events: none;
-      }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Prediction Difference via Dots</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
-  </head>
+</head>
+<body>
 
-  <body>
-    <div id="tooltip"></div>
-  </body>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
 
-  <script type="text/javascript">
+h2,
+h3 {
+  margin: 10px;
+  font-size: 1em;
+}
 
-    const {DeckGL, GeoJsonLayer} = deck;
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
 
-    const COLOR_SCALE = [
-      // negative
-      [65, 182, 196],
-      [127, 205, 187],
-      [199, 233, 180],
-      [237, 248, 177],
+/**
+* Create a position for the map
+* on the page */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
 
-      // positive
-      [255, 255, 204],
-      [255, 237, 160],
-      [254, 217, 118],
-      [254, 178, 76],
-      [253, 141, 60],
-      [252, 78, 42],
-      [227, 26, 28],
-      [189, 0, 38],
-      [128, 0, 38]
-    ];
+/**
+* Set rules for how the map overlays
+* (information box and legend) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: rgba(192,192,192,1);
+  background: rgba(0,0,0,.9);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
 
-    const geojsonLayer = new GeoJsonLayer({
-      data: 'https://raw.githubusercontent.com/tkayne23/qgisdata/master/evanston2_loveland_prop_tax4326.json',
-      opacity: 0.7,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      wireframe: true,
-      fp64: true,
+#features {
+  top: 0;
+  height: 200px;
+  margin-top: 60px;
+  width: 260px;
+}
 
-      getElevation: f => Math.sqrt(f.properties.lovelandEstPropValue) / 10,
-      getFillColor: f => colorScale(f.properties.lovelandAssess2EstVal),
-      getLineColor: [255, 255, 255],
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: .8em;
+  line-height: 12px;
+  height: 60px;
+  margin-bottom: 40px;
+  width: 220px;
+}
 
-      pickable: true,
-      onHover: updateTooltip
-    });
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+</style>
 
-    new DeckGL({
-      mapboxApiAccessToken: 'pk.eyJ1IjoidGtheW5lMjMiLCJhIjoiY2syZHNmZXprMDIyMTNjcXBvZTM1aW5zNCJ9.6SEZoK2Ni6crk2LuEdvXjg',
-      mapStyle: 'mapbox://styles/tkayne23/civfnfqk8000o2iqo0sasuhvs',
-      latitude: 42.044,
-      longitude: -87.686,
-      zoom: 13,
-      maxZoom: 19,
-      pitch: 45,
-      layers: [geojsonLayer]
-    });
+<!-- for Mapbox GL Geocoder in IE 11 -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
-    function colorScale(x) {
-      const i = Math.round(x * 7) + 4;
-      if (x < 0) {
-        return COLOR_SCALE[i] || COLOR_SCALE[0];
-      }
-      return COLOR_SCALE[i] || COLOR_SCALE[COLOR_SCALE.length - 1];
-    }
+<div id='map'></div>
+<div class='map-overlay' id='features'><h2>Parcel Details</h2><div id='pd'><p>Zoom in until dots are visible, hover over dot for details!</p></div></div>
+<div class='map-overlay' id='legend'></div>
 
-    function updateTooltip({x, y, object}) {
-      const tooltip = document.getElementById('tooltip');
 
-      if (object) {
-        tooltip.style.top = `${y}px`;
-        tooltip.style.left = `${x}px`;
-        tooltip.innerHTML = `
-    <div><div>${object.properties.lovelandOwner}</div></div>
-    <div><div>${object.properties.lovelandAddress}</div></div> 
-    <div>Est. Market Value</div>
-    <div><div>$${object.properties.lovelandEstPropValue} by Cook County</div></div>
-    <div>Assessed to Mkt Value</div>
-    <div>${Math.abs(object.properties.lovelandAssess2EstVal)}</div>
-    `;
-      } else {
-        tooltip.innerHTML = '';
-      }
-    }
+<script>
+// stateData.geojson was uploaded as a tileset; then choropleth styling was added using Studio
+mapboxgl.accessToken = 'pk.eyJ1IjoidGtheW5lMjMiLCJhIjoiY2syZHNmZXprMDIyMTNjcXBvZTM1aW5zNCJ9.6SEZoK2Ni6crk2LuEdvXjg';
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'mapbox://styles/tkayne23/ckc2f1jju013b1imhx9gmd6pr' // replace this with your style URL
+  //center: [-87.569, 41.802],
+  //zoom: 8.74
+});
 
-  </script>
+map.addControl(
+new MapboxGeocoder({
+accessToken: mapboxgl.accessToken,
+mapboxgl: mapboxgl
+})
+);
+
+// here is the load callback function; execute after the load is done
+// this is used in the legend
+map.on('load', function() {
+  var layers = ['Appeal is Not Necessary', 'Appeal is Encouraged', 'Appeal is Recommended','Appeal is Strongly Recommended','Appeal is Absolutely Recommended'];
+  var colors = ['#fee5d9', '#fcae91','#fb6a4a','#de2d26','#a50f15'];
+
+// this adds the legend
+//  it iterates through the list of layers you defined above and adds a legend element 
+//  for each one based on the name of the layer and its color
+for (i = 0; i < layers.length; i++) {
+  var layer = layers[i];
+  var color = colors[i];
+  var item = document.createElement('div');
+  var key = document.createElement('span');
+  key.className = 'legend-key';
+  key.style.backgroundColor = color;
+
+  var value = document.createElement('span');
+  value.innerHTML = layer;
+  item.appendChild(key);
+  item.appendChild(value);
+  legend.appendChild(item);
+}
+
+// this adds the information window for the hover over each state
+map.on('mousemove', function(e) {
+  var states = map.queryRenderedFeatures(e.point, {
+    layers: ['06302020-ccoa-xgboost-compare-39l98s']
+  });
+
+  if (states.length > 0) {
+    document.getElementById('pd').innerHTML = '<p><strong>' + states[0].properties.PIN + '</strong></p><p><strong>' + states[0].properties.Address + '</strong></p><p><strong>' + states[0].properties.CERTIFIED + ' CCAO Value</strong></p><p><strong>' + states[0].properties.Pred_xgb + ' Prediction</strong></p><p><strong>' + states[0].properties.Difference + ' Difference</strong></p><p><strong>' + states[0].properties.Prediction_per_sqft + ' Prediction $ sq ft</strong></p>';
+  } else {
+    document.getElementById('pd').innerHTML = '<p>Zoom in until dots are visible, hover over dot for details!</p>';
+  }
+});
+
+map.getCanvas().style.cursor = 'default';
+
+map.fitBounds([[-88.512766, 42.2394], [-87.161655, 41.36134]]);
+
+});
+
+
+
+</script>
+
+</body>
 </html>
