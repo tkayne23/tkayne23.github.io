@@ -117,8 +117,11 @@ map.addControl(
 new MapboxGeocoder({
 accessToken: mapboxgl.accessToken,
 mapboxgl: mapboxgl
-})
-);
+}));
+
+// add navigational control
+var nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-left');
 
 // here is the load callback function; execute after the load is done
 // this is used in the legend
