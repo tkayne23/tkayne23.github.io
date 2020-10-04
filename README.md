@@ -1,2 +1,2 @@
 # tkayne23.github.io
-test Cook County tax parcel viewer with property appeal recommender.
+test Cook County tax parcel viewer; recommends if one should appeal value
