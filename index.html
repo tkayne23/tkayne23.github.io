@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Appeal Recommender</title>
+    <title>Appeal Property Value?</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
@@ -108,7 +108,7 @@ type="text/css"
 mapboxgl.accessToken = 'pk.eyJ1IjoidGtheW5lMjMiLCJhIjoiY2syZHNmZXprMDIyMTNjcXBvZTM1aW5zNCJ9.6SEZoK2Ni6crk2LuEdvXjg';
 var map = new mapboxgl.Map({
   container: 'map', // container id
-  style: 'mapbox://styles/tkayne23/ckc2f1jju013b1imhx9gmd6pr' // replace this with your style URL
+  style: 'mapbox://styles/tkayne23/ckfr2yhy700go19mgya1hnca2' // replace this with your style URL
   //center: [-87.569, 41.802],
   //zoom: 8.74
 });
@@ -150,11 +150,11 @@ for (i = 0; i < layers.length; i++) {
 // this adds the information window for the hover over each state
 map.on('mousemove', function(e) {
   var states = map.queryRenderedFeatures(e.point, {
-    layers: ['06302020-ccoa-xgboost-compare-39l98s']
+    layers: ['condo-covid-sf-10042020']
   });
 
   if (states.length > 0) {
-    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.PIN + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Cook Cty Value: $' + states[0].properties.CERTIFIED.toFixed(0) + '</strong></p><p><strong> Prediction: $' + states[0].properties.Pred_xgb.toFixed(0) + '</strong></p><p><strong> Difference: $' + states[0].properties.Difference.toFixed(0) + '</strong></p><p><strong> Prediction per sq ft: $' + states[0].properties.Prediction_per_sqft.toFixed(0) + '</strong></p>';
+    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.pretty_pin14 + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Cook Cty Value: $' + states[0].properties.Board_PIN14_Value + '</strong></p><p><strong> Prediction: $' + states[0].properties.PIN14_Predicted_Value + '</strong></p><p><strong> Difference: $' + states[0].properties.PIN14_Difference_pretty + '</strong></p><p><strong> PIN10 Covid-19 Adj. Value: $' + states[0].properties.Covid_PIN10_Value + '</strong></p>';
   } else {
     document.getElementById('pd').innerHTML = '<p>Zoom in until dots are visible, hover over dot for details!</p>';
   }
