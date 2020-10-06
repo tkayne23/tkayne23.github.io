@@ -59,9 +59,9 @@ p {
 
 #features {
   top: 0;
-  height: 200px;
+  height: 265px;
   margin-top: 60px;
-  width: 240px;
+  width: 260px;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   overflow: auto; /* Enable scroll if needed */
@@ -99,7 +99,7 @@ type="text/css"
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
 <div id='map'></div>
-<div class='map-overlay' id='features'><h2>Parcel Details</h2><div id='pd'><p>Zoom in until dots are visible, hover over dot for details!</p></div></div>
+<div class='map-overlay' id='features'><h2>PARCEL TAX DETAILS</h2><div id='pd'><p>Zoom in until dots are visible, hover over dot for details!</p></div></div>
 <div class='map-overlay' id='legend'></div>
 
 
@@ -154,7 +154,7 @@ map.on('mousemove', function(e) {
   });
 
   if (states.length > 0) {
-    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.pretty_pin14 + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Cook Cty Value: $' + states[0].properties.Board_PIN14_Value + '</strong></p><p><strong> Prediction: $' + states[0].properties.PIN14_Predicted_Value + '</strong></p><p><strong> Difference: $' + states[0].properties.PIN14_Difference_pretty + '</strong></p><p><strong> PIN10 Covid-19 Adj. Value: $' + states[0].properties.Covid_PIN10_Value + '</strong></p>';
+    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.pretty_pin14 + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Tax Year: ' + states[0].properties.YEAR + '</strong></p><p><strong> Cook Cty Value: $' + states[0].properties.Board_PIN14_Value + '</strong></p><p><strong> Suggested Value: $' + states[0].properties.PIN14_Predicted_Value + '</strong></p><p><strong> Difference: $' + states[0].properties.PIN14_Difference_pretty + '</strong></p><p><strong> Covid-19 Adj. Value: $' + states[0].properties.Covid_PIN10_Value + '</strong></p><p><strong> If Condo, Total PINs: ' + states[0].properties.Total_Resd_Condos + '</strong></p><p><strong> If Condo, Bldg Value: $' + states[0].properties.Board_PIN10_Value + '</strong></p>';
   } else {
     document.getElementById('pd').innerHTML = '<p>Zoom in until dots are visible, hover over dot for details!</p>';
   }
