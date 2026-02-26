@@ -1,174 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8' />
-    <title>Tax Inspectr</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="leaflet-search-master\dist\leaflet-search.src.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src ="data\model_data.js"></script>
+    <script src ="data\usa_tribe_data.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <title>Leaflet: Outside geojson, basemap control, control checkbox</title>
+ 
     <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+    #map { position: absolute; top:0; bottom:0; left:0; right:0; }
+    .popup-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 6px;
+        margin-top: 5px;
+    }
+    /* optional: style the popup container */
+    .custom-popup .leaflet-popup-content {
+        max-height: 300px;
+        overflow-y: auto;   /* scroll if too tall */
+    }
     </style>
+
+
+    <style>
+        #map {position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 <body>
 
-<style>
-body {
-  margin: 0;
-  padding: 0;
-}
+    <div id="map"></div>
 
-h2,
-h3 {
-  margin: 10px;
-  font-size: 1em;
-}
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([41.379724, -100.415039], 4);
+        // Add the initial default map; maps found at https://cloud.maptiler.com/maps/openstreetmap/
+        var osm = L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}.jpg?key=MUbdeXKoXqDp1iqwR989', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+        }).addTo(map);
 
-p {
-  font-size: 0.85em;
-  margin: 10px;
-  text-align: left;
-}
+        // add geocoder search
+        new L.Control.Geocoder().addTo(map);
 
-/**
-* Create a position for the map
-* on the page */
-#map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+        // add watermark for logo
+        L.Control.Watermark=L.Control.extend({
+            onAdd:function(map){
+                var img = L.DomUtil.create('img');
+                img.src = 'JSK_logo.png';
+                img.style.width = '200px';
+                return img;
+                },
+                onRemove:function(map){},
+                });
+                L.control.watermark = function(opts){
+                    return new L.Control.Watermark(opts);
+                    }
+                L.control.watermark({position:'bottomleft'}).addTo(map);
 
-/**
-* Set rules for how the map overlays
-* (information box and legend) will be displayed
-* on the page. */
-.map-overlay {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  color: rgba(192,192,192,1);
-  background: rgba(0,0,0,.9);
-  margin-right: 10px;
-  font-family: Arial, sans-serif;
-  overflow: auto;
-  border-radius: 3px;
-}
+        // add additional basemaps
+        var Satellite_hybrid = L.tileLayer('Https://api.maptiler.com/maps/hybrid-v4/{z}/{x}/{y}.jpg?key=MUbdeXKoXqDp1iqwR989', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+        });
 
-#features {
-  top: 0;
-  height: 275px;
-  margin-top: 60px;
-  width: 260px;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
+        var Topo = L.tileLayer('https://api.maptiler.com/maps/topo-v4/{z}/{x}/{y}.png?key=MUbdeXKoXqDp1iqwR989', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+        });
 
-#legend {
-  padding: 10px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  font-size: .8em;
-  line-height: 12px;
-  height: 80px;
-  margin-bottom: 40px;
-  width: 220px;
-}
+        //Leaflet basemaps layer control
+        var baseMaps = {
+            'Opens Street Map': osm,
+            'Satellite Hybrid': Satellite_hybrid,
+            'Topo': Topo
+        }
 
-.legend-key {
-  display: inline-block;
-  border-radius: 20%;
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-}
-</style>
+        var model_data = L.geoJSON(model_data, {
+            onEachFeature: function(feature, layer) {
+                var props = feature.properties;
+                var name = props.name || 'Unknown';
+                // Remove leading whitespace for valid URL
+                var imageUrl = props.html_link ? props.html_link.trim() : null;
 
-<!-- for Mapbox GL Geocoder in IE 11 -->
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-<link
-rel="stylesheet"
-href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
-type="text/css"
-/>
-<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+                var popupContent = '<b>' + name + '</b>';
+                if (imageUrl) {
+                    popupContent += '<br><img src="' + imageUrl + '" class="popup-image" alt="' + name + '">';
+                }
 
-<div id='map'></div>
-<div class='map-overlay' id='features'><h2>RESIDENTIAL TAX DETAILS</h2><div id='pd'><p>Enter your address above or zoom in until dots are visible. Then hover over dot for details!</p></div></div>
-<div class='map-overlay' id='legend'></div>
+                layer.bindPopup(popupContent, {
+                    maxWidth: 400,
+                    className: 'custom-popup'
+                });
 
+                // Resize popup after image loads
+                layer.on('popupopen', function(e) {
+                    var img = e.popup._contentNode.querySelector('img');
+                    if (img) {
+                        img.onload = function() {
+                            e.popup.update();
+                        };
+                    }
+                });
+            }
+        }).addTo(map);
 
-<script>
-// stateData.geojson was uploaded as a tileset; then choropleth styling was added using Studio
-mapboxgl.accessToken = 'pk.eyJ1IjoidGtheW5lMjMiLCJhIjoiY2syZHNmZXprMDIyMTNjcXBvZTM1aW5zNCJ9.6SEZoK2Ni6crk2LuEdvXjg';
-var map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/tkayne23/ckfr2yhy700go19mgya1hnca2' // replace this with your style URL
-  //center: [-87.569, 41.802],
-  //zoom: 8.74
-});
+        // Add geojson data from external file with style and hover effects
+        var usa_tribe_data = L.geoJSON(usa_tribe_data, {
+            style: function(feature) {
+                return {
+                    color: 'pink',       // Outline color
+                    fillColor: 'pink',   // Fill color
+                    fillOpacity: 0.55,    // Opacity set to .5
+                    weight: 2            // Outline thickness
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                // Display AreaName when hovering
+                if (feature.properties && feature.properties.AreaName) {
+                    layer.bindTooltip(feature.properties.AreaName, {
+                        sticky: true // Tooltip follows the mouse
+                    });
+                }
+            }
+        }).addTo(map);
+    
+        // checkbox overlay map goes here
+        var overlayMaps = {
+            'Indigenous Models': model_data,
+            'USA Tribal Land': usa_tribe_data
+        }
 
-map.addControl(
-new MapboxGeocoder({
-accessToken: mapboxgl.accessToken,
-mapboxgl: mapboxgl
-}));
-
-// add navigational control
-var nav = new mapboxgl.NavigationControl();
-map.addControl(nav, 'top-left');
-
-// here is the load callback function; execute after the load is done
-// this is used in the legend
-map.on('load', function() {
-  var layers = ['Appeal is Not Necessary','Appeal is Slightly Encouraged', 'Appeal is Encouraged', 'Appeal is Recommended','Appeal is Strongly Recommended','Appeal is Absolutely Recommended'];
-  var colors = ['#f8f8ff','#fee5d9', '#fcae91','#fb6a4a','#de2d26','#a50f15'];
-
-// this adds the legend
-//  it iterates through the list of layers you defined above and adds a legend element 
-//  for each one based on the name of the layer and its color
-for (i = 0; i < layers.length; i++) {
-  var layer = layers[i];
-  var color = colors[i];
-  var item = document.createElement('div');
-  var key = document.createElement('span');
-  key.className = 'legend-key';
-  key.style.backgroundColor = color;
-
-  var value = document.createElement('span');
-  value.innerHTML = layer;
-  item.appendChild(key);
-  item.appendChild(value);
-  legend.appendChild(item);
-}
-
-// this adds the information window for the hover over each state
-map.on('mousemove', function(e) {
-  var states = map.queryRenderedFeatures(e.point, {
-    layers: ['condo-covid-sf-10042020']
-  });
-
-  if (states.length > 0) {
-    document.getElementById('pd').innerHTML = '<p><strong> PIN: ' + states[0].properties.pretty_pin14 + '</strong></p><p><strong> Address: ' + states[0].properties.Address + '</strong></p><p><strong> Tax Year: ' + states[0].properties.YEAR + '</strong></p><p><strong> Cook County Value: $' + states[0].properties.Board_PIN14_Value + '</strong></p><p><strong> Suggested Value: $' + states[0].properties.PIN14_Predicted_Value + '</strong></p><p><strong> Difference: $' + states[0].properties.PIN14_Difference_pretty + '</strong></p><p><strong> Covid-19 Adj. Value: $' + states[0].properties.Covid_PIN10_Value + '</strong></p><p><strong> Total Units (if multiple PINs): ' + states[0].properties.Total_Resd_Condos + '</strong></p><p><strong> Total Property Value: $' + states[0].properties.Board_PIN10_Value + '</strong></p>';
-  } else {
-    document.getElementById('pd').innerHTML = '<p>Enter your address above or zoom in until dots are visible. Hover over dot for details!</p>';
-  }
-});
-
-map.getCanvas().style.cursor = 'default';
-
-map.fitBounds([[-88.512766, 42.2394], [-87.161655, 41.36134]]);
-
-});
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 
-
-</script>
+    </script>
 
 </body>
 </html>
