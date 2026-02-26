@@ -4,15 +4,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="leaflet-search-master\dist\leaflet-search.src.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src ="model_data.js"></script>
-    <script src ="usa_tribe_data.js"></script>
+    <script src ="data\model_data.js"></script>
+    <script src ="data\usa_tribe_data.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <title>JSK Photo Indigenous Models</title>
- 
+
     <style>
-    #map { position: absolute; top:0; bottom:0; left:0; right:0; }
+    #map {position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
     .popup-image {
         max-width: 100%;
         height: auto;
@@ -25,12 +25,27 @@
         max-height: 300px;
         overflow-y: auto;   /* scroll if too tall */
     }
+
+    /* Style for the instruction box */
+    .info-box {
+        padding: 10px 15px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        color: #333;
+        max-width: 250px;
+    }
+
+    .info-box h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
     </style>
 
 
-    <style>
-        #map {position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
-    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -46,6 +61,24 @@
         var osm = L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}.jpg?key=MUbdeXKoXqDp1iqwR989', {
             attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
         }).addTo(map);
+
+        // Create a custom control for instructions
+        var instructions = L.control({position: 'bottomleft'});
+
+        instructions.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info-box'); 
+            div.innerHTML = '<h4>Map Instructions</h4>' +
+                            '<ul>' +
+                            '<li><b>Click</b> markers to view photos.</li>' +
+                            '<li><b>Hover</b> over pink areas to see tribal land names.</li>' +
+                            '<li>Use the <b>layers icon</b> (top right) to toggle data.</li>' +
+                            '<li>Use the <b>search icon</b> (top right) to find destinations.</li>' +
+                            '</ul>';
+            return div;
+        };
+
+        instructions.addTo(map);
+
 
         // add geocoder search
         new L.Control.Geocoder().addTo(map);
@@ -143,5 +176,3 @@
 
 </body>
 </html>
-
-
