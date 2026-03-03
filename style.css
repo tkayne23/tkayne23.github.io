@@ -1,0 +1,72 @@
+/* style.css */
+#map {
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    left: 0; 
+    right: 0;
+}
+
+.popup-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+.custom-popup b {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+    color: #333;
+    display: block;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+}
+
+.popup-image {
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.popup-image:hover {
+    transform: scale(1.02); /* Subtle zoom when looking at the photo */
+}
+
+.info-box {
+    padding: 10px 15px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    color: #333;
+    max-width: 250px;
+}
+
+.info-box h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+/* style.css */
+
+.popup-button {
+    display: block;
+    text-align: center;
+    background-color: #1479a4; /* A deep pink/berry color to match your theme */
+    color: white !important;
+    padding: 8px 12px;
+    margin-top: 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.popup-button:hover {
+    background-color: #1417a4; /* Darker shade on hover */
+    text-decoration: none;
+}
