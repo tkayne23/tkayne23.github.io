@@ -1,53 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="leaflet-search-master\dist\leaflet-search.src.css"/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src ="model_data.js"></script>
-    <script src ="usa_tribe_data.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
-    <title>JSK Photo Indigenous Models</title>
-
-    <style>
-    #map {position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
-    .popup-image {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 6px;
-        margin-top: 5px;
-    }
-    /* optional: style the popup container */
-    .custom-popup .leaflet-popup-content {
-        max-height: 300px;
-        overflow-y: auto;   /* scroll if too tall */
-    }
-
-    /* Style for the instruction box */
-    .info-box {
-        padding: 10px 15px;
-        font: 14px/16px Arial, Helvetica, sans-serif;
-        background: white;
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        border-radius: 5px;
-        color: #333;
-        max-width: 250px;
-    }
-
-    .info-box h4 {
-        margin: 0 0 5px;
-        color: #777;
-    }
-
-    </style>
-
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wet Plate Collodion Tintypes</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="leaflet-search-master/dist/leaflet-search.src.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    
+    <link rel="stylesheet" href="data/style.css">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="data/model_data.js"></script>
+    <script src="data/usa_tribe_data.js"></script>
 
 </head>
 <body>
@@ -56,7 +23,7 @@
 
     <script>
         // Initialize the map
-        var map = L.map('map').setView([41.379724, -100.415039], 4);
+        var map = L.map('map').setView([41.379724, -100.415039], 3.35);
         // Add the initial default map; maps found at https://cloud.maptiler.com/maps/openstreetmap/
         var osm = L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}.jpg?key=MUbdeXKoXqDp1iqwR989', {
             attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
@@ -118,12 +85,20 @@
             onEachFeature: function(feature, layer) {
                 var props = feature.properties;
                 var name = props.name || 'Unknown';
-                // Remove leading whitespace for valid URL
                 var imageUrl = props.html_link ? props.html_link.trim() : null;
+                
+                // NEW: Get the web page URL from the jsk_web_page property
+                var webPageUrl = props.jsk_web_page ? props.jsk_web_page.trim() : null;
 
                 var popupContent = '<b>' + name + '</b>';
+
                 if (imageUrl) {
                     popupContent += '<br><img src="' + imageUrl + '" class="popup-image" alt="' + name + '">';
+                }
+
+                // NEW: Add the link as a button if the URL exists
+                if (webPageUrl) {
+                    popupContent += '<br><a href="' + webPageUrl + '" target="_blank" class="popup-button">View Full Profile</a>';
                 }
 
                 layer.bindPopup(popupContent, {
@@ -131,7 +106,6 @@
                     className: 'custom-popup'
                 });
 
-                // Resize popup after image loads
                 layer.on('popupopen', function(e) {
                     var img = e.popup._contentNode.querySelector('img');
                     if (img) {
@@ -176,5 +150,3 @@
 
 </body>
 </html>
-
-
