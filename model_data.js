@@ -4298,19 +4298,247 @@ var model_data = {
         {
             "type": "Feature",
             "properties": {
-                "html_link": null,
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026088-20260216-ccc-08-2-web-1200.jpg",
                 "tribe": "Umatilla",
                 "detail1": null,
                 "detail2": null,
-                "alt_name": "Acosio Red Elk",
-                "name": "Acosio Red Elk",
-                "jsk_web_page": null
+                "alt_name": "Acosia Red Elk Portrait",
+                "name": "Acosia Red Elk Portrait",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/acosia-red-elk-portrait/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.526001,
+                    45.623215
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026075-20260214-ccc-08-v2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Bigfoot's Portrait",
+                "name": "Bigfoot's Portrait",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/bigfoot-portrait/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.578186,
+                    45.595364
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026089-20260216-ccc-08-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Umatill Woman In Ancient Bucksin Dress",
+                "name": "Umatill Woman In Ancient Bucksin Dress ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/acosia-with-bucksin-dress/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.44841,
+                    45.651991
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026091-20260216-ccc-08-2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Umatills Snow Boarder",
+                "name": "Umatills Snow Boarder ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/native-american-snowboarder/?gallery=acosia-red-elk"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
                     -118.499908,
                     45.666533
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026084-20260215-ccc-08-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Umatilla Woman With Mother's Gathering Baskets",
+                "name": "Umatilla Woman With Mother's Gathering Baskets ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/acosia-red-elk-with-mothers-baskets/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.417511,
+                    45.596896
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026078-20260214-ccc-08-v3-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Bigfoot's Dance",
+                "name": "Bigfoot's Dance ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/bigfoots-dance/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.685303,
+                    45.522838
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026082-20260215-ccc-08-v2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Medicin Tea Time",
+                "name": "Medicin Tea Time ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/tea-time-jingle-dancer/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.644104,
+                    45.51511
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026077-20260214-ccc-08-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Bigfoot's Gaze",
+                "name": "Bigfoot's Gaze ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/bigfoots-gaze/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.55484,
+                    45.725356
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026081-200260217-ccc-08-v2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Eagle Dancer",
+                "name": "Eagle Dancer ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/eagle-dancer/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.336487,
+                    45.725454
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026085-2026025-ccc-08-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Umatilla Jingle Dancer",
+                "name": "Umatilla Jingle Dancer ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/umatilla-jingle-dancer/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.565826,
+                    45.719704
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026092-200260216-ccc-08-2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Acosia",
+                "name": "Acosia ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/portrait-of-acosia/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.645477,
+                    45.50943
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026076-20260214-ccc-08-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Bigfoot's Throne",
+                "name": "Bigfoot's Throne ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/bigfoots-throne/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.418884,
+                    45.71577
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "html_link": "https://www.josephkaynephoto.com/images/xl/20026083-20260215-ccc-08-v2-web-1200.jpg",
+                "tribe": "Umatilla",
+                "detail1": null,
+                "detail2": null,
+                "alt_name": "Umatilla Woman",
+                "name": "Umatilla Woman ",
+                "jsk_web_page": "https://www.josephkaynephoto.com/photo/umatilla-woman-portrait/?gallery=acosia-red-elk"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.701782,
+                    45.663129
                 ]
             }
         },
